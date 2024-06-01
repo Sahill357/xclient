@@ -17,6 +17,9 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import { graphqlClient } from "@/clients/api";
 import { verifyUserGoogleTokenQuery } from "@/graphql/query/user";
+import { Token } from "graphql";
+import { useCurretUser } from "@/hooks/user";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 
 interface TwitterSidebarButton {
   title: string;
@@ -67,30 +70,35 @@ const sideBarMenuItems: TwitterSidebarButton[] = [
 ];
 
 export default function Home() {
-  const handleLoginWithGoogle = useCallback( async (cred: CredentialResponse) => {
-const googleToken =cred.credential
-if (!googleToken) toast.error (`Google Token not found`);
+  const { user } = useCurretUser();
+  const queryClient = useQueryClient();
+  console.log(user);
 
-const {verifyGoogleToken} = await graphqlClient.request(
-  verifyUserGoogleTokenQuery,
-  {token:googleToken}
-);
+  const handleLoginWithGoogle = useCallback(
+    async (cred: CredentialResponse) => {
+      const googleToken = cred.credential;
+      if (!googleToken) return toast.error(`Google Token not found`);
 
-toast.success("Verified Success");
-console.log(verifyGoogleToken);
+      const { verifyGoogleToken } = await graphqlClient.request(
+        verifyUserGoogleTokenQuery,
+        { token: googleToken }
+      );
 
-if (verifyGoogleToken)
-  window.localStorage.setItem("__twitter_token",verifyGoogleToken);
+      toast.success("Verified Success");
+      console.log(verifyGoogleToken);
 
+      if (verifyGoogleToken)
+        window.localStorage.setItem("__twitter_token", verifyGoogleToken);
 
-
-  },
-  []);
+      await queryClient.invalidateQueries(["current-user"]);
+    },
+    [queryClient]
+  );
 
   return (
     <div className={`${inter.className} overflow-hidden`}>
       <div className="grid grid-cols-12 h-screen w-screen ps-32  ">
-        <div className="col-span-3 pt-1  ml-1  ">
+        <div className="col-span-3 pt-1  ml-1 relative  ">
           <div className="text-3xl h-fit w-fit mb-1 hover:bg-gray-800 rounded-full p-4 cursor-pointer transition-all">
             <FaXTwitter />
           </div>
@@ -112,6 +120,23 @@ if (verifyGoogleToken)
               </button>
             </div>
           </div>
+          {user && (
+            <div className="absolute bottom-5 left-5  flex gap-2 items-center  hover:bg-gray-800 rounded-full p-4 cursor-pointer transition-all">
+              {user && user.profileImageURL && (
+                <Image
+                  className="rounded-full"
+                  src={user.profileImageURL} // Correct capitalization and closing tag
+                  alt="user-image"
+                  height={40}
+                  width={40}
+                />
+              )}
+              <div className="ml-2 flex mb-3 font-bold">
+                <span className="text-xl">{user.firstName}</span>
+                <span className="text-xl ml-1">{user.lastName}</span>
+              </div>
+            </div>
+          )}
         </div>
         <div className="col-span-5 border-r-[1px] border-l-[1px] border-gray-600 overflow-y-scroll">
           <FeedCard />
@@ -123,10 +148,12 @@ if (verifyGoogleToken)
         </div>
 
         <div className="col-span-3 p-5">
-          <div className="p-5 bg-slate-700 rounded-lg">
-            <h1 className="my-2">New to X ?</h1>
-            <GoogleLogin onSuccess={handleLoginWithGoogle} />
-          </div>
+          {!user && (
+            <div className="p-5 bg-slate-700 rounded-lg">
+              <h1 className="my-2">New to X ?</h1>
+              <GoogleLogin onSuccess={handleLoginWithGoogle} />
+            </div>
+          )}
         </div>
       </div>
     </div>
