@@ -1,23 +1,26 @@
-import {graphql} from '../../gql';
+import { graphql } from "../../gql";
 
- 
-
-export const getAllTweetsQuery = graphql (
-    `
+export const getAllTweetsQuery = graphql(
+  `
     #graphql
     query GetAllTweets {
-     getAllTweets{
+      getAllTweets {
         id
         content
         imageURL
-        author{
-            firstName
-            lastName
-            profileImageURL
+        author {
+          id
+          firstName
+          lastName
+          profileImageURL
         }
-     }
+      }
     }
-    `)
+  `
+);
 
-
-
+export const getSignedURLForTweetQuery = graphql(`
+  query GetSignedURL($imageName: String!, $imageType: String!) {
+    getSignedURLForTweet(imageName: $imageName, imageType: $imageType)
+  }
+`);
