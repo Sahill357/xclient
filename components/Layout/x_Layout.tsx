@@ -365,71 +365,38 @@ const Twitterlayout: React.FC<TwitterLayoutProps> = (props) => {
                   <h1 className="my-2 text-xl mb-1 font-extrabold">
                     Who to follow
                   </h1>
-                  {user?.recommendedUsers?.map(
-                    (el: {
-                      id: React.Key | null | undefined;
-                      profileImageURL: string | StaticImport;
-                      firstName:
-                        | string
-                        | number
-                        | bigint
-                        | boolean
-                        | React.ReactElement<
-                            any,
-                            string | React.JSXElementConstructor<any>
-                          >
-                        | Iterable<React.ReactNode>
-                        | React.ReactPortal
-                        | Promise<React.AwaitedReactNode>
-                        | null
-                        | undefined;
-                      lastName:
-                        | string
-                        | number
-                        | bigint
-                        | boolean
-                        | React.ReactElement<
-                            any,
-                            string | React.JSXElementConstructor<any>
-                          >
-                        | Iterable<React.ReactNode>
-                        | React.ReactPortal
-                        | Promise<React.AwaitedReactNode>
-                        | null
-                        | undefined;
-                    }) => (
-                      <div
-                        className="flex items-center gap-3 mt-2"
-                        key={el?.id}
-                      >
-                        <Link href={`/${el?.id}`}>
-                          {el?.profileImageURL && (
-                            <Image
-                              src={el?.profileImageURL}
-                              alt="user-image"
-                              className="rounded-full mt-3 cursor-pointer"
-                              width={45}
-                              height={45}
-                            />
-                          )}
-                        </Link>
-                        <div className="flex items-center justify-between w-full">
-                          <div className="text-sm font-extrabold cursor-pointer">
-                            <Link href={`/${el?.id}`}>
-                              {el?.firstName} {el?.lastName}
-                            </Link>
-                          </div>
-                          <Link
-                            href={`/${el?.id}`}
-                            className="bg-white text-black font-bold text-sm px-5 py-1 mt-5 rounded-full "
-                            style={{ lineHeight: "1.5rem" }} // Adjust line height as needed
-                          >
-                            Follow
+                  {user?.recommendedUsers?.map((el) => (
+                    <div
+                      className="flex items-center gap-3 mt-2"
+                      key={el?.id}
+                    >
+                      <Link href={`/${el?.id}`}>
+                        {el?.profileImageURL && (
+                          <Image
+                            src={el?.profileImageURL}
+                            alt="user-image"
+                            className="rounded-full mt-3 cursor-pointer"
+                            width={45}
+                            height={45}
+                          />
+                        )}
+                      </Link>
+                      <div className="flex items-center justify-between w-full">
+                        <div className="text-sm font-extrabold cursor-pointer">
+                          <Link href={`/${el?.id}`}>
+                            {el?.firstName} {el?.lastName}
                           </Link>
                         </div>
+                        <Link
+                          href={`/${el?.id}`}
+                          className="bg-white text-black font-bold text-sm px-5 py-1 mt-5 rounded-full "
+                          style={{ lineHeight: "1.5rem" }} // Adjust line height as needed
+                        >
+                          Follow
+                        </Link>
                       </div>
-                    )
-                  )}
+                    </div>
+                  ))}
                   <div>
                     <h1
                       className="text-sm font-semibold mt-7 mb-4 cursor-pointer"
