@@ -37,7 +37,7 @@ const UserProfilePage: NextPage<ServerProps> = (props) => {
     if (!props.userInfo) return false;
     return (
       (currentUser?.following?.findIndex(
-        (el) => el?.id === props.userInfo?.id
+        (el: { id: string | undefined }) => el?.id === props.userInfo?.id
       ) ?? -1) >= 0
     );
   }, [currentUser?.following, props.userInfo]);
