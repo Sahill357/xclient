@@ -62,35 +62,30 @@ const UserProfilePage: NextPage<ServerProps> = (props) => {
     <div className="mr-3">
       <TwitterLayout >
         <div>
-          <nav className="sticky top-0 z-10 backdrop-filter backdrop-blur-md flex items-center gap-3 py-2 px-5 border-b border-[rgb(41,45,47)]">
-           
-           
-            
-            <Link href="/">
-
-            <div
-                    className="text-gray-400  relative"
-                    style={{ color: "#ffffff" }}
-                  >
-                    <FaArrowLeft className="text-lg" />
-                    <div className="absolute inset-0 flex items-center justify-center rounded-full bg-blue-100 opacity-0 hover:opacity-10 transition-opacity duration-300">
-                      <div className="bg-blue-100 rounded-full p-2">
-                        <FaArrowLeft className="text-blue-100 text-lg" />
-                      </div>
-                    </div>
-                  </div>
-                  </Link>
-
-
-            <div className="mt-[-14px]">
-              <h1 className="text-xl  font-bold ml-7 mt-2">
-                {props.userInfo?.firstName} {props.userInfo?.lastName}
-              </h1>
-              <h1 className="text-xs -mb-1 font-medium text-slate-600 ml-7">
-                {props.userInfo?.tweets?.length} Tweets
-              </h1>
+        <nav className="sticky top-0 z-10 backdrop-filter backdrop-blur-md flex items-center gap-3 py-2 px-5 border-[rgb(41,45,47)]">
+      <Link href="/">
+        <div
+          className="text-gray-400 relative"
+          style={{ color: "#ffffff" }}
+        >
+          <FaArrowLeft className="text-lg" />
+          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-blue-100 opacity-0 hover:opacity-10 transition-opacity duration-300">
+            <div className="bg-blue-100 rounded-full p-2">
+              <FaArrowLeft className="text-blue-100 text-lg" />
             </div>
-          </nav>
+          </div>
+        </div>
+      </Link>
+
+      <div className="mt-[-14px]">
+        <h1 className="text-xl font-bold ml-7 mt-2">
+          {props.userInfo?.firstName} {props.userInfo?.lastName}
+        </h1>
+        <h1 className="text-xs -mb-1 font-medium text-slate-600 ml-7">
+          {props.userInfo?.tweets?.length} Tweets
+        </h1>
+      </div>
+    </nav>
           <div className="relative p-4 border-b border-[rgb(41,45,47)]">
             <div
               className="absolute top-0 left-0 w-full h-48 bg-cover bg-center"
