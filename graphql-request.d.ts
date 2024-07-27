@@ -1,2 +1,2 @@
-// graphql-request.d.ts
-declare module 'graphql-request';
+// // graphql-request.d.ts
+// declare module 'graphql-request';
