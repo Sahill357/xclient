@@ -5,6 +5,7 @@ import { getAllTweetsQuery } from "@/graphql/query/tweet";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
+
 export const useCreateTweet = () => {
   const queryClient = useQueryClient();
 
